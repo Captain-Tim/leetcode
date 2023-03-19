@@ -1,6 +1,5 @@
 class WordDictionary {
 private:
-    const char dot = '.';
     struct TrieNode
     {
         const int alphabet_size = 26;
@@ -12,7 +11,7 @@ private:
         {
         };
     };
-    
+    const char dot = '.';
     TrieNode* root;
     bool helper(string& word, int idx, TrieNode* cur)
     {
