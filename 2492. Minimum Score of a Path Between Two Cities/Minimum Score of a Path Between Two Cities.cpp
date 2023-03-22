@@ -16,14 +16,13 @@ public:
         {
             int cur_city = qu.front();
             qu.pop();
-            if (!visited[cur_city])
+            for (pair<int, int>& p : adj[cur_city])
             {
-                visited[cur_city] = true;
-                for (pair<int, int>& p : adj[cur_city])
+                res = min(res, p.second);
+                if (!visited[p.first])
                 {
-                    res = min(res, p.second);
-                    if (!visited[p.first])
-                        qu.push(p.first);
+                    visited[p.first] = true;
+                    qu.push(p.first);
                 }
             }
         }
