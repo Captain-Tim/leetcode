@@ -13,13 +13,7 @@ public:
         }
         vector<string> res;
         for (int i = 0; i < LETTER_NUM; ++i)
-        {
-            while (common_char_num[i])
-            {
-                res.push_back(string(1, i + 'a'));
-                --common_char_num[i];
-            }
-        }
+            res.insert(res.end(), common_char_num[i], string(1, 'a' + i));
         return res;
     }
 };
