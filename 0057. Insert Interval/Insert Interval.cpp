@@ -3,27 +3,25 @@ public:
     vector<vector<int>> insert(vector<vector<int>>& intervals, vector<int>& newInterval) {
         if (intervals.empty())
             return {newInterval};
-        int left = 0, right = intervals.size() - 1, target = newInterval[0];
-        while (left < right)
-        {
-            int mid = left + (right - left) / 2;
-            if (intervals[mid][0] < target)
-                left = mid + 1;
-            else
-                right = mid;
-        }
-        if (intervals[left][0] < target)
-            ++left;
-        intervals.insert(intervals.begin() + left, newInterval);
         vector<vector<int>> res;
-        for (const auto& interval : intervals)
+        int cur_idx = 0;
+
+        while (cur_idx < intervals.size() && intervals[cur_idx][1] < newInterval[0])
         {
-            if (res.empty() || (res.back()[1] < interval[0]))
-                res.push_back(interval);
-            else
-                res.back()[1] = max(res.back()[1], interval[1]);
+            res.push_back(intervals[cur_idx]);
+            ++cur_idx;
         }
-        intervals.erase(intervals.begin() + left);
+        
+        while (cur_idx < intervals.size() && newInterval[1] >= intervals[cur_idx][0])
+        {
+            newInterval[0] = min(newInterval[0], intervals[cur_idx][0]);
+            newInterval[1] = max(newInterval[1], intervals[cur_idx][1]);
+            ++cur_idx;
+        }
+        res.push_back(newInterval);
+        
+        while (cur_idx < intervals.size())
+            res.push_back(intervals[cur_idx++]);
         return res;
     }
 };
