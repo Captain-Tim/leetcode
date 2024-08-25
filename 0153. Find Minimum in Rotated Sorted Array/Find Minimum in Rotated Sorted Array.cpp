@@ -6,7 +6,7 @@ public:
         while (left < right)
         {
             int mid = left + (right - left) / 2;
-            if (nums[mid] > nums[right])
+            if (nums[mid] > nums[right]) // note that we don't have to include =, since it is a lower mid 
                 left = mid + 1;
             else
                 right = mid;
