@@ -2,12 +2,10 @@ class Solution {
 public:
     vector<int> searchRange(vector<int>& nums, int target) {
         vector<int> not_found{-1, -1};
-        if (nums.empty())
-            return not_found;
         int start = bs(nums, target - 1, false);
-        if (nums[start] != target)
-            return not_found;
         int end = bs(nums, target + 1, true);
+        if (nums.empty() || nums[start] != target)
+            return not_found;
         return {start, end};
     }
     int bs(vector<int>& nums, int target, bool is_upper_mid)
