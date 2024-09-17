@@ -1,26 +1,25 @@
 class Solution {
 public:
     int findTheLongestSubstring(string s) {
-        unordered_map<char, int> code;
-        code['a'] = 1;
-        code['e'] = 2;
-        code['i'] = 4;
-        code['o'] = 8;
-        code['u'] = 16;
-        const int ALL_EVEN_CODE_NUM = 0;
-        
-        unordered_map<int, int> first_seen;
-        first_seen[ALL_EVEN_CODE_NUM] = -1;
-        int xor_sum = ALL_EVEN_CODE_NUM;
+        unordered_map<char, int> code_book;
+        code_book['a'] = 1;
+        code_book['e'] = 2;
+        code_book['i'] = 4;
+        code_book['o'] = 8;
+        code_book['u'] = 16;
+        unordered_map<int, int> prefix_sum;
+        prefix_sum[0] = -1;
+        const int ALL_VOWEL_EVEN = 0;
+        int sum = ALL_VOWEL_EVEN;
         int res = 0;
         for (int i = 0; i < s.size(); ++i)
         {
-            int code_num = code.count(s[i]) ? code[s[i]] : 0;
-            xor_sum ^= code_num;
-            if (xor_sum != ALL_EVEN_CODE_NUM && first_seen.count(xor_sum) == 0)
-                first_seen[xor_sum] = i;
+            int code = code_book.count(s[i]) ? code_book[s[i]] : 0;
+            sum ^= code;
+            if (prefix_sum.count(sum))
+                res = max(res, i - prefix_sum[sum]);
             else
-                res = max(res, i - first_seen[xor_sum]);
+                prefix_sum[sum] = i;
         }
         return res;
     }
