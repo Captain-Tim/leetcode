@@ -4,30 +4,23 @@ public:
         const int SIZE = 9;
         vector<unordered_set<char>> rows(SIZE);
         vector<unordered_set<char>> cols(SIZE);
-        vector<unordered_set<char>> boxes(SIZE);
+        vector<unordered_set<char>> blks(SIZE);
+        
         for (int r = 0; r < SIZE; ++r)
         {
             for (int c = 0; c < SIZE; ++c)
             {
-                char num = board[r][c];
-                if (num != '.')
-                {
-                    if (rows[r].count(num))
-                        return false;
-                    rows[r].insert(num);
-                    
-                    if (cols[c].count(num))
-                        return false;
-                    cols[c].insert(num);
-                    
-                    int box_idx = (r / 3) * 3 + c / 3;
-                    if (boxes[box_idx].count(num))
-                        return false;
-                    boxes[box_idx].insert(num);
-                }
+                if (board[r][c] == '.')
+                    continue;
+                char cur_num = board[r][c];
+                int blk_idx = (r / 3) * 3 + (c / 3);
+                if (rows[r].count(cur_num) || cols[c].count(cur_num) || blks[blk_idx].count(cur_num)) 
+                    return false;
+                rows[r].insert(cur_num);
+                cols[c].insert(cur_num);
+                blks[blk_idx].insert(cur_num);
             }
         }
         return true;
-        
     }
 };
