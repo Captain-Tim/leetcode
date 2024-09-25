@@ -6,17 +6,17 @@ public:
         while (left < right)
         {
             int mid = left + (right - left + 1) / 2;
-            bool mid_in_left = nums[left] < nums[mid];
+            bool mid_in_left = nums[mid] >= nums[0];
             if (mid_in_left)
             {
-                if (nums[mid] > target && nums[left] <= target)
+                if (target < nums[mid] && target >= nums[0])
                     right = mid - 1;
                 else
                     left = mid;
             }
             else
             {
-                if (nums[right] < target || target < nums[mid])
+                if (target < nums[mid] || target >= nums[0])
                     right = mid - 1;
                 else
                     left = mid;
