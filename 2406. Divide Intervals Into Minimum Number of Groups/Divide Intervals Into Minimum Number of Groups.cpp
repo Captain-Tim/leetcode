@@ -10,7 +10,11 @@ public:
             time.push_back({v[0], IS_START_TIME});
             time.push_back({v[1] + 1, IS_END_TIME});
         }
-        sort(time.begin(), time.end());
+        // will sort the vector by its first element and then the second and so on.
+        // so if the first elements are equal, 
+        // then the one with IS_END_TIME(-1) as the second element will be in front of the one 
+        // with IS_START_TIME(1) as the second element
+        sort(time.begin(), time.end()); 
         int res = 0;
         int cur_overlap_num = 0;
         for (vector<int>& v : time)
