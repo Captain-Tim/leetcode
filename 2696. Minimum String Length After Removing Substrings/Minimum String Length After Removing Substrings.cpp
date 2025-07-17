@@ -1,7 +1,7 @@
 class Solution {
 public:
     int minLength(string s) {
-        stack<int> stk;
+        stack<char> stk;
         for (char c : s)
         {
             if (stk.empty())
