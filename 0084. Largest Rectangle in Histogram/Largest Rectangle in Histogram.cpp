@@ -1,32 +1,34 @@
+/*
+ * @lc app=leetcode id=84 lang=cpp
+ *
+ * [84] Largest Rectangle in Histogram
+ */
+
+// @lc code=start
 class Solution {
 public:
     int largestRectangleArea(vector<int>& heights) {
         using pii = pair<int, int>;
-        stack<pii> stk;
+        stack<pii> mono_stk;
         int res = 0;
         for (int i = 0; i < heights.size(); ++i)
         {
-            if (stk.empty() || heights[i] > stk.top().first)
+            int start_idx = i;
+            while (!mono_stk.empty() && mono_stk.top().second > heights[i])
             {
-                stk.push({heights[i], i});
+                res = max(res, (i - mono_stk.top().first) * mono_stk.top().second);
+                start_idx = mono_stk.top().first;
+                mono_stk.pop();
             }
-            else
-            {
-                int start_position;
-                while (!stk.empty() && stk.top().first >= heights[i])
-                {
-                    start_position = stk.top().second;
-                    res = max(res, stk.top().first * (i - stk.top().second));
-                    stk.pop();
-                }
-                stk.push({heights[i], start_position});
-            }
+            mono_stk.push({start_idx, heights[i]});
         }
-        while (!stk.empty())
+        while (!mono_stk.empty())
         {
-            res = max(res, stk.top().first * (int) (heights.size() - stk.top().second));
-            stk.pop();
+            res = max(res, ((int) heights.size() - mono_stk.top().first) * mono_stk.top().second);
+            mono_stk.pop();
         }
         return res;
     }
 };
+// @lc code=end
+
