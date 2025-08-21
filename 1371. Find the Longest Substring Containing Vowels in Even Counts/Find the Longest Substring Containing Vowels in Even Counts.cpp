@@ -1,26 +1,26 @@
 class Solution {
 public:
     int findTheLongestSubstring(string s) {
-        unordered_map<char, int> code_book;
-        code_book['a'] = 1;
-        code_book['e'] = 2;
-        code_book['i'] = 4;
-        code_book['o'] = 8;
-        code_book['u'] = 16;
-        unordered_map<int, int> prefix_sum;
-        prefix_sum[0] = -1;
-        const int ALL_VOWEL_EVEN = 0;
-        int sum = ALL_VOWEL_EVEN;
+        unordered_map<int, int> last_seen{{0, -1}};
+        int cur_sum = 0;
         int res = 0;
         for (int i = 0; i < s.size(); ++i)
         {
-            int code = code_book.count(s[i]) ? code_book[s[i]] : 0;
-            sum ^= code;
-            if (prefix_sum.count(sum))
-                res = max(res, i - prefix_sum[sum]);
+            if (vowel_to_int.count(s[i]))
+                cur_sum ^= vowel_to_int[s[i]];
+            if (last_seen.count(cur_sum))
+                res = max(res, i - last_seen[cur_sum]);
             else
-                prefix_sum[sum] = i;
+                last_seen.insert({cur_sum, i});
         }
         return res;
     }
+private:
+    unordered_map<char, int> vowel_to_int{
+        {'a', 0b10000},
+        {'e', 0b01000},
+        {'i', 0b00100},
+        {'o', 0b00010},
+        {'u', 0b00001}
+    };
 };
