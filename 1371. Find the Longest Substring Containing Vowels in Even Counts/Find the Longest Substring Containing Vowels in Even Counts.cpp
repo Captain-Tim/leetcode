@@ -1,17 +1,17 @@
 class Solution {
 public:
     int findTheLongestSubstring(string s) {
-        unordered_map<int, int> last_seen{{0, -1}};
+        unordered_map<int, int> prefix_sum{{0, -1}};
         int cur_sum = 0;
         int res = 0;
         for (int i = 0; i < s.size(); ++i)
         {
             if (vowel_to_int.count(s[i]))
                 cur_sum ^= vowel_to_int[s[i]];
-            if (last_seen.count(cur_sum))
-                res = max(res, i - last_seen[cur_sum]);
+            if (prefix_sum.count(cur_sum))
+                res = max(res, i - prefix_sum[cur_sum]);
             else
-                last_seen.insert({cur_sum, i});
+                prefix_sum.insert({cur_sum, i});
         }
         return res;
     }
