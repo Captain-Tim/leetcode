@@ -1,21 +1,21 @@
 class Solution {
 public:
     int minimumTotal(vector<vector<int>>& triangle) {
-        vector<int> prev_row{triangle[0]};
-		for (int i = 1; i < triangle.size(); ++i)
-		{
-			vector<int> cur_row(i + 1, 0);
-			for (int j = 0; j < cur_row.size(); ++j)
-			{
-				int left = (j == 0) ? INT_MAX : prev_row[j - 1];
-				int right = (j == cur_row.size() - 1) ? INT_MAX : prev_row[j];
-				cur_row[j] = min(left, right) + triangle[i][j];
-			}
-			prev_row.swap(cur_row);
-		}
-		int res = INT_MAX;
-		for (const int& i : prev_row)
-			res = min(res, i);
-		return res;
+        vector<int> prev(1, 0);
+        for (int layer = 0; layer < triangle.size(); ++layer)
+        {
+            vector<int> cur(layer + 1, 0);
+            for (int i = 0; i < cur.size(); ++i)
+            {
+                int left_val = (i - 1 >= 0) ? prev[i - 1] : INT_MAX;
+                int right_val = (i != prev.size()) ? prev[i] : INT_MAX;
+                cur[i] = triangle[layer][i] + min(left_val, right_val);  
+            }
+            cur.swap(prev);
+        }
+        int res = INT_MAX;
+        for (int i : prev)
+            res = min(res, i);
+        return res;
     }
 };
