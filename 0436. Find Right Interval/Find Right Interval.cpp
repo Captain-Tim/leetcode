@@ -1,32 +1,28 @@
 class Solution {
 public:
     vector<int> findRightInterval(vector<vector<int>>& intervals) {
-        vector<vector<int>> intervals_sorted(intervals.size());
+        vector<vector<int>> sort_start;
+        sort_start.reserve(intervals.size());
         for (int i = 0; i < intervals.size(); ++i)
-        {
-            intervals_sorted[i] = intervals[i];
-            intervals_sorted[i].push_back(i);
-        }
-        auto comparator = [](vector<int>& a, vector<int>& b)
-        {
-            return a[0] < b[0];
-        };
-        sort(intervals_sorted.begin(), intervals_sorted.end(), comparator);
+            sort_start.push_back({intervals[i][0], i});
+        sort(sort_start.begin(), sort_start.end());
         vector<int> res;
-        for (int i = 0; i < intervals_sorted.size(); ++i)
+        res.reserve(intervals.size());
+        for (auto& vec : intervals)
         {
-            int target = intervals[i][1];
+            int target = vec[1];
             int left = 0;
-            int right = intervals_sorted.size() - 1;
-            while (left  < right)
+            int right = sort_start.size() - 1;
+            while (left < right)
             {
                 int mid = left + (right - left) / 2;
-                if (intervals_sorted[mid][0] < target)
+                if (sort_start[mid][0] < target)
                     left = mid + 1;
                 else
-                    right = mid;
+                    right = mid; 
             }
-            res.push_back((intervals_sorted[left][0] < target) ? -1 : intervals_sorted[left][2]);
+            int result = (sort_start[left][0] >= target) ? sort_start[left][1] : -1;
+            res.push_back(result);
         }
         return res;
     }
