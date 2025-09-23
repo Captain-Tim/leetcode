@@ -1,17 +1,14 @@
 class Solution {
 public:
     vector<int> dailyTemperatures(vector<int>& temperatures) {
-        using pii = pair<int, int>;
-        stack<pii> stk;
         vector<int> res(temperatures.size(), 0);
-        for (int i = 0; i < temperatures.size(); ++i)
+        for (int i = temperatures.size() - 2; i >= 0; --i)
         {
-            while (!stk.empty() && stk.top().first < temperatures[i])
-            {
-                res[stk.top().second] = (i - stk.top().second); 
-                stk.pop();
-            }
-            stk.push({temperatures[i], i});
+            int next_warmer_day = i + 1;            
+            while (temperatures[i] >= temperatures[next_warmer_day] && res[next_warmer_day] != 0)
+                next_warmer_day += res[next_warmer_day];
+            if (temperatures[i] < temperatures[next_warmer_day])
+                res[i] = next_warmer_day - i;
         }
         return res;
     }
