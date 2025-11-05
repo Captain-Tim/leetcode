@@ -7,11 +7,9 @@ public:
         int res = 0;
         for (int i : nums)
         {
-            sum += (i % k);
+            sum = (sum + i) % k;
             if (sum < 0)
                 sum += k;
-            else
-                sum %= k;
             res += prefix_sum[sum];
             ++prefix_sum[sum];
         }
